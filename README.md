@@ -43,11 +43,16 @@ python3 -m http.server 8000
 
 ### 2. Créer les tables et la sécurité
 
-1. Ouvre `supabase/schema.sql` et **remplace `CHANGE-MOI`** par le code secret.
-   Prends une phrase plutôt que 4 chiffres, par exemple `la chevre aime le miel de lavande`.
-   C'est ce que ton amie tapera une fois sur son téléphone.
-2. Dans Supabase : **SQL Editor** → **New query** → colle tout le fichier → **Run**.
+1. Dans Supabase : **SQL Editor** → **New query** → colle `supabase/schema.sql` **tel quel** → **Run**.
    Résultat attendu : `Success. No rows returned`.
+2. **New query** à nouveau, et définis le code secret :
+   ```sql
+   update private.secret set pin = 'ta vraie phrase secrète' where id;
+   ```
+   Prends une phrase plutôt que 4 chiffres. C'est ce que ton amie tapera une fois sur son téléphone.
+   ⚠️ **N'écris jamais le vrai code dans `schema.sql`** : le dépôt est public. Ne sauvegarde pas non plus cette requête dans Supabase.
+
+Tu peux relancer `schema.sql` plus tard sans risque : il ne touche pas au code déjà défini.
 
 Ce que ça met en place :
 - **lecture ouverte** à quiconque a le lien ;

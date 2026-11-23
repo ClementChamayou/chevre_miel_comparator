@@ -1,7 +1,8 @@
 -- =====================================================================
 --  Le Guide Chèvre-Miel — schéma Supabase
 --  À coller tel quel dans : Supabase > SQL Editor > New query > Run
---  ⚠️ Change le code secret à la ligne marquée « CHANGE-MOI » avant de lancer.
+--  Ne mets PAS le vrai code secret dans ce fichier (il est public sur GitHub).
+--  Lance-le tel quel, puis définis le code à part (voir tout en bas).
 -- =====================================================================
 
 -- ---------- Tables --------------------------------------------------
@@ -49,8 +50,8 @@ create table if not exists private.secret (
 );
 
 insert into private.secret (id, pin)
-values (true, 'CHANGE-MOI')                -- 👈 mets ici le code secret (une phrase, pas 4 chiffres)
-on conflict (id) do update set pin = excluded.pin;
+values (true, 'CHANGE-MOI')                -- valeur bidon, remplacée ensuite par une requête à part
+on conflict (id) do nothing;               -- relancer ce fichier ne touche jamais au code existant
 
 -- Vrai si la requête porte le bon code dans l'en-tête HTTP « x-pin ».
 -- security definer : la fonction lit private.secret, l'appelant ne le peut pas.
@@ -103,5 +104,6 @@ create or replace function public.ping()
 returns text language sql stable as $$ select 'miam' $$;
 grant execute on function public.ping() to anon;
 
--- Pour changer le code secret plus tard :
---   update private.secret set pin = 'nouvelle phrase secrète' where id;
+-- Code secret : à lancer SÉPARÉMENT dans le SQL Editor, sans jamais l'enregistrer dans ce fichier.
+-- Une phrase plutôt que 4 chiffres. Même commande pour le changer plus tard.
+--   update private.secret set pin = 'ta vraie phrase secrète' where id;
