@@ -2,7 +2,7 @@
 
 Le seul guide gastronomique qui ne note que les pizzas chèvre-miel.
 
-- **Carte** : Leaflet + fond de carte CARTO (données OpenStreetMap)
+- **Carte** : Leaflet + fond de carte vectoriel OpenFreeMap via MapLibre (données OpenStreetMap), gratuit et sans clé
 - **Recherche d'établissements** : Photon (komoot), gratuit, sans clé
 - **Données et photos** : Supabase (Postgres gratuit)
 - **Hébergement** : GitHub Pages (site statique, HTTPS)
@@ -107,7 +107,9 @@ Pour repartir d'une page blanche sur ton téléphone : menu ☰ → **Code secre
 Envoie-lui **le lien et le code secret**, si possible par deux messages séparés.
 
 Pour l'installer comme une appli :
-- **iPhone** : ouvrir le lien dans **Safari** → bouton Partager → **Sur l'écran d'accueil**.
+- **iPhone** : ouvrir le lien dans **Safari** → bouton Partager → **Sur l'écran d'accueil**, **puis** ouvrir l'icône et taper le code dedans.
+  L'app installée a son propre stockage, séparé de Safari : un code tapé dans Safari n'y serait pas connu.
+  Et Safari efface les données d'un site après 7 jours sans visite, contrairement à l'app installée. Avec l'icône, elle ne retapera jamais le code.
 - **Android** : ouvrir dans **Chrome** → menu ⋮ → **Ajouter à l'écran d'accueil** (ou **Installer l'application**).
 
 ---
@@ -120,6 +122,7 @@ Pour l'installer comme une appli :
 - **☰** en haut à gauche : toutes les pizzas, triées par date, par note ou par resto.
 - Sur la carte, chaque épingle affiche la **moyenne du resto**.
 - **◎** en bas à droite : se localiser (pratique quand on est déjà attablée).
+- **Itinéraire** (fiche du resto) : ouvre Plans sur iPhone, Google Maps ailleurs.
 
 ---
 
@@ -144,4 +147,4 @@ Pour l'installer comme une appli :
 - **Mise en veille** : Supabase gratuit met en pause un projet inactif 7 jours. Le workflow GitHub le réveille tous les 3 jours. S'il échoue, tu reçois un mail de Supabase et un clic sur « Resume » suffit.
 - **Photos** : compressées dans le navigateur (≈150 Ko + une miniature de 15 Ko). Les 500 Mo gratuits laissent de la marge pour des milliers de pizzas.
 - **Lecture publique** : toute personne qui a le lien voit les notes, mais ne peut pas écrire sans le code.
-- **Fond de carte** : les tuiles CARTO sont gratuites pour un petit usage non commercial. Pour passer aux tuiles OpenStreetMap standard, remplace l'URL de `L.tileLayer` dans `app.js` par `https://tile.openstreetmap.org/{z}/{x}/{y}.png`.
+- **Fond de carte** : OpenFreeMap est gratuit, sans clé ni limite, mais c'est un service bénévole fourni tel quel. S'il disparaissait, il suffirait de changer l'adresse du style dans `app.js` (par exemple pour une clé CARTO gratuite). Si le téléphone ne gère pas WebGL, l'app bascule toute seule sur les tuiles OpenStreetMap standard.

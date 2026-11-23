@@ -1,6 +1,6 @@
 // =====================================================================
 //  Le Guide Chèvre-Miel — application
-//  Carte : Leaflet + tuiles CARTO (données OpenStreetMap)
+//  Carte : Leaflet + fond vectoriel OpenFreeMap via MapLibre (données OpenStreetMap)
 //  Recherche : Photon (komoot), données OpenStreetMap, sans clé
 //  Données : Supabase (ou localStorage en mode démo)
 // =====================================================================
@@ -319,10 +319,16 @@ function handleErr(e) {
 // ---------------------------------------------------------------------
 const map = L.map('map', { zoomControl: false, tapHold: true })
   .setView([CONFIG.CARTE_DEPART.lat, CONFIG.CARTE_DEPART.lon], CONFIG.CARTE_DEPART.zoom);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-  maxZoom: 20, subdomains: 'abcd',
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-}).addTo(map);
+// Fond de carte vectoriel OpenFreeMap (gratuit, sans clé), dessiné par MapLibre dans Leaflet.
+// Repli sur les tuiles OpenStreetMap standard si le navigateur ne gère pas WebGL.
+const OSM_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+const hasWebGL = () => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; } };
+if (L.maplibreGL && window.maplibregl && hasWebGL()) {
+  // Les mentions OpenFreeMap / OpenMapTiles / OpenStreetMap viennent du style lui-même.
+  L.maplibreGL({ style: 'https://tiles.openfreemap.org/styles/liberty' }).addTo(map);
+} else {
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: OSM_ATTR }).addTo(map);
+}
 
 const markers = new Map();
 let tempMarker = null;
@@ -538,7 +544,10 @@ async function newPlaceAt(lat, lon) {
   if (S.sheet?.place === pl) renderSheet();
 }
 
+const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+// Itinéraire : Plans sur iPhone/iPad (toujours installé), Google Maps ailleurs
 function gmapsUrl(r) {
+  if (IS_IOS) return `https://maps.apple.com/?q=${encodeURIComponent(r.name)}&ll=${r.lat},${r.lon}`;
   const q = r.address ? `${r.name}, ${r.address}` : `${r.lat},${r.lon}`;
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 }

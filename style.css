@@ -30,7 +30,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 input, textarea { font: inherit; color: inherit; }
 [hidden] { display: none !important; }
 
-#map { position: fixed; inset: 0; z-index: 0; background: #F3EBDD; }
+#map {
+  position: fixed; inset: 0; z-index: 0; background: #F3EBDD;
+  /* iPhone : pas de loupe ni de sélection pendant l'appui long */
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+}
 .leaflet-control-attribution { font-size: 10px; background: rgba(255,248,236,.8) !important; }
 .leaflet-control-zoom { display: none; }
 
@@ -67,7 +71,7 @@ input, textarea { font: inherit; color: inherit; }
   position: absolute; top: 56px; left: 56px; right: 0;
   margin: 0; padding: 6px; list-style: none;
   background: var(--chevre); border-radius: 14px; box-shadow: var(--ombre);
-  max-height: min(60vh, 420px); overflow-y: auto;
+  max-height: min(60vh, 420px); max-height: min(60dvh, 420px); overflow-y: auto;
 }
 .search-results li {
   display: flex; gap: 12px; align-items: center;
@@ -133,7 +137,7 @@ body.sheet-open .hint, .hint.gone { opacity: 0; }
   max-width: 560px; margin: 0 auto;
   background: var(--chevre); border-radius: 24px 24px 0 0; box-shadow: 0 -8px 30px rgba(59,42,26,.2);
   padding: 10px 18px calc(var(--safe-bot) + 18px);
-  max-height: 62vh; overflow-y: auto;
+  max-height: 62vh; max-height: 62dvh; overflow-y: auto;
   animation: up .25s ease-out;
 }
 @keyframes up { from { transform: translateY(40px); opacity: 0; } }
@@ -222,14 +226,14 @@ body.sheet-open .hint, .hint.gone { opacity: 0; }
   display: flex; align-items: flex-end; justify-content: center; animation: fade .2s;
 }
 .modal-card {
-  width: 100%; max-width: 560px; max-height: 94vh; overflow-y: auto;
+  width: 100%; max-width: 560px; max-height: 94vh; max-height: 94dvh; overflow-y: auto;
   background: var(--chevre); border-radius: 24px 24px 0 0;
   padding: 20px 18px calc(var(--safe-bot) + 18px);
   animation: up .25s ease-out;
 }
 @media (min-width: 640px) {
   .modal { align-items: center; }
-  .modal-card { border-radius: 24px; max-height: 90vh; }
+  .modal-card { border-radius: 24px; max-height: 90vh; max-height: 90dvh; }
 }
 .modal h2 { font-family: var(--titre); font-weight: 800; font-size: 24px; margin: 0 0 4px; }
 .modal .sub { color: var(--brun-doux); margin: 0 0 16px; font-size: 14px; }
@@ -281,7 +285,7 @@ input[type=range].note-range { width: 100%; accent-color: var(--miel-fonce); hei
 
 /* Fiche pizza */
 .detail-photo { margin: -20px -18px 16px; position: relative; background: var(--miel-clair); }
-.detail-photo img { width: 100%; max-height: 44vh; object-fit: cover; display: block; }
+.detail-photo img { width: 100%; max-height: 44vh; max-height: 44dvh; object-fit: cover; display: block; }
 .detail-photo .loading { height: 200px; display: grid; place-items: center; color: var(--brun-doux); }
 .detail-head { display: flex; gap: 14px; align-items: center; margin-bottom: 14px; }
 .detail-head .grow { flex: 1; min-width: 0; }
