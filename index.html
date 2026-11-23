@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Le Guide Chèvre-Miel</title>
+  <meta name="description" content="Le seul guide gastronomique qui ne note que les pizzas chèvre-miel.">
+  <meta name="theme-color" content="#F2A93B">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Chèvre-Miel">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="map" aria-label="Carte des pizzerias"></div>
+
+  <!-- Barre du haut : menu + recherche -->
+  <header class="topbar">
+    <button id="btn-menu" class="icon-btn" aria-label="Mes pizzas">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="search">
+      <svg class="search-ico" viewBox="0 0 24 24" width="18" height="18"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <input id="search-input" type="search" placeholder="Pizzeria, restaurant, ville…" autocomplete="off" enterkeyhint="search" aria-label="Rechercher un établissement">
+      <button id="search-clear" class="clear-btn" aria-label="Effacer" hidden>×</button>
+    </div>
+    <ul id="search-results" class="search-results" role="listbox" hidden></ul>
+  </header>
+
+  <div id="demo-banner" class="demo-banner" hidden>Mode démo : les notes restent dans ce navigateur. Configure Supabase dans <code>config.js</code>.</div>
+
+  <!-- Boutons flottants -->
+  <button id="btn-locate" class="fab fab-locate" aria-label="Me localiser">
+    <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="4" fill="currentColor"/><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <div id="hint" class="hint">Appui long sur la carte pour placer un resto à la main</div>
+
+  <!-- Fiche du lieu (bas de l'écran) -->
+  <section id="sheet" class="sheet" hidden aria-live="polite"></section>
+
+  <!-- Tiroir : toutes les pizzas -->
+  <div id="drawer-backdrop" class="backdrop" hidden></div>
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div>
+        <p class="kicker">Le Guide</p>
+        <h1 id="app-title">Chèvre-Miel</h1>
+      </div>
+      <button id="btn-drawer-close" class="icon-btn ghost" aria-label="Fermer">×</button>
+    </div>
+    <div id="stats" class="stats"></div>
+    <div class="sort" role="tablist">
+      <button class="sort-btn active" data-sort="date" role="tab">Récentes</button>
+      <button class="sort-btn" data-sort="note" role="tab">Les meilleures</button>
+      <button class="sort-btn" data-sort="resto" role="tab">Par resto</button>
+    </div>
+    <ul id="pizza-list" class="pizza-list"></ul>
+    <p class="drawer-foot">Le seul guide gastronomique qui ne note qu'une seule pizza.</p>
+  </aside>
+
+  <!-- Fenêtre modale générique -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

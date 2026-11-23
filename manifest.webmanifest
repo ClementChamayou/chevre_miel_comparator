@@ -1,0 +1,17 @@
+{
+  "name": "Le Guide Chèvre-Miel",
+  "short_name": "Chèvre-Miel",
+  "description": "Le seul guide gastronomique qui ne note que les pizzas chèvre-miel.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFF8EC",
+  "theme_color": "#F2A93B",
+  "lang": "fr",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
