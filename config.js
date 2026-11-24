@@ -14,6 +14,6 @@ export const CONFIG = {
   // Prénom affiché dans le titre (« Le Guide Chèvre-Miel de … »). Laisser '' pour aucun.
   PRENOM: 'Nina',
 
-  // Vue de la carte au premier lancement, avant toute pizza notée.
-  CARTE_DEPART: { lat: 46.6, lon: 2.4, zoom: 6 },
+  // Vue au lancement quand la localisation n'est pas (encore) autorisée. Ici : Paris.
+  CARTE_DEPART: { lat: 48.8566, lon: 2.3522, zoom: 12 },
 };

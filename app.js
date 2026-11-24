@@ -374,18 +374,30 @@ map.on('click', () => { hideResults(); if (S.sheet) closeSheet(); });
 map.on('contextmenu', e => { hideResults(); newPlaceAt(e.latlng.lat, e.latlng.lng); });
 map.on('movestart', () => $('#hint').classList.add('gone'));
 
-$('#btn-locate').onclick = () => {
-  if (!navigator.geolocation) return toast('Géolocalisation indisponible', true);
+// Centre la carte sur la position. silent : pas de message d'erreur ni d'animation (lancement de l'app).
+function locateMe({ silent = false } = {}) {
+  if (!navigator.geolocation) { if (!silent) toast('Géolocalisation indisponible', true); return; }
   const b = $('#btn-locate'); b.classList.add('locating');
   navigator.geolocation.getCurrentPosition(pos => {
     b.classList.remove('locating');
     const { latitude: lat, longitude: lon } = pos.coords;
     if (!meMarker) meMarker = L.circleMarker([lat, lon], { radius: 8, color: '#fff', weight: 3, fillColor: '#2563EB', fillOpacity: 1 }).addTo(map);
     else meMarker.setLatLng([lat, lon]);
-    map.flyTo([lat, lon], 16, { duration: 0.8 });
-  }, () => { b.classList.remove('locating'); toast('Position refusée ou introuvable', true); },
+    if (silent) map.setView([lat, lon], 15); else map.flyTo([lat, lon], 16, { duration: 0.8 });
+  }, () => { b.classList.remove('locating'); if (!silent) toast('Position refusée ou introuvable', true); },
   { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 });
-};
+}
+$('#btn-locate').onclick = () => locateMe();
+
+// Au lancement : on se centre sur elle seulement si elle a DÉJÀ autorisé la localisation
+// (via le bouton ◎). On ne déclenche jamais la demande d'autorisation tout seul.
+async function autoLocate() {
+  try {
+    if (!navigator.permissions || !navigator.geolocation) return;
+    const st = await navigator.permissions.query({ name: 'geolocation' });
+    if (st.state === 'granted') locateMe({ silent: true });
+  } catch { /* API des permissions absente : on reste sur la vue de config.js */ }
+}
 
 // ---------------------------------------------------------------------
 //  Recherche
@@ -987,10 +999,7 @@ async function init() {
     toast('Impossible de charger le guide (projet Supabase en pause ?)', true);
   }
   renderMarkers();
-  if (S.restos.size) {
-    const b = L.latLngBounds([...S.restos.values()].map(r => [r.lat, r.lon]));
-    map.fitBounds(b, { padding: [60, 60], maxZoom: 14 });
-  }
+  autoLocate();       // sinon la carte reste sur CARTE_DEPART (Paris)
   setTimeout(() => $('#hint').classList.add('gone'), 7000);
   window.__gcm = { S, store };   // pour déboguer dans la console
 }
