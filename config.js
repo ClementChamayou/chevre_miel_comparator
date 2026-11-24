@@ -6,13 +6,13 @@
 
 export const CONFIG = {
   // Supabase > Project Settings > API (ou bouton « Connect »)
-  SUPABASE_URL: 'https://XXXX.supabase.co',
+  SUPABASE_URL: 'https://cyohtpttycadfbpvjndt.supabase.co',
   // Clé « publishable » (sb_publishable_…) ou l'ancienne clé « anon ».
   // Elle est faite pour être publique : la sécurité vient du code secret côté base.
-  SUPABASE_KEY: 'XXXX',
+  SUPABASE_KEY: 'sb_publishable_b6lEylKJd5vD8WQ1H5mnAA_bS89Vzqt',
 
   // Prénom affiché dans le titre (« Le Guide Chèvre-Miel de … »). Laisser '' pour aucun.
-  PRENOM: '',
+  PRENOM: 'Nina',
 
   // Vue de la carte au premier lancement, avant toute pizza notée.
   CARTE_DEPART: { lat: 46.6, lon: 2.4, zoom: 6 },
